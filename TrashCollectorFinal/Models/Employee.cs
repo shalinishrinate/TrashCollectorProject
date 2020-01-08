@@ -21,5 +21,7 @@ namespace TrashCollectorFinal.Models
         [ForeignKey("ApplicationUser")]
         public string ApplicationId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+
+        public IEnumerable<Employee> Employees { get; set; }
     }
 }

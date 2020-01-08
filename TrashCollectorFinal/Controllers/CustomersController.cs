@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -28,6 +29,10 @@ namespace TrashCollectorFinal.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int id)
         {
+            // GETUSERID
+            //string currentUserId = User.Identity.GetUserId();
+            //var cust = _context.Customers.Where();
+
             Customer customer = new Customer();
             customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
             return View(customer);
@@ -37,6 +42,9 @@ namespace TrashCollectorFinal.Controllers
         public ActionResult Create()
         {
             Customer customer = new Customer();
+            customer.SuspendedStart = DateTime.Now;
+            customer.SuspendedEnd = DateTime.Now;
+            customer.PickupDay = DateTime.Now;
             return View(customer);
         }
 
@@ -48,11 +56,13 @@ namespace TrashCollectorFinal.Controllers
         {
             try
             {
+                string currentUserId = User.Identity.GetUserId();
+                customer.ApplicationId = currentUserId;
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch 
+            catch (Exception e)
             {
                 return View();
             }
