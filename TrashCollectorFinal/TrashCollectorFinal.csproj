@@ -185,6 +185,10 @@
     <Compile Include="Migrations\202001062245027_NewMigration.Designer.cs">
       <DependentUpon>202001062245027_NewMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001081608137_ChangingDatTypeOfPickupDay.cs" />
+    <Compile Include="Migrations\202001081608137_ChangingDatTypeOfPickupDay.Designer.cs">
+      <DependentUpon>202001081608137_ChangingDatTypeOfPickupDay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -285,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001062245027_NewMigration.resx">
       <DependentUpon>202001062245027_NewMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001081608137_ChangingDatTypeOfPickupDay.resx">
+      <DependentUpon>202001081608137_ChangingDatTypeOfPickupDay.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

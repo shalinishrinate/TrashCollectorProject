@@ -13,6 +13,7 @@ namespace TrashCollectorFinal
         {
             ConfigureAuth(app);
             createRolesandUsers();
+           // var weekDays = new string[7] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
         }
 
         // In this method we will create default User roles and Admin user for login    
@@ -36,7 +37,7 @@ namespace TrashCollectorFinal
                 //Here we create a Admin super user who will maintain the website                   
 
                 var user = new ApplicationUser();
-                user.UserName = "Sam";
+                user.UserName = "Admin";
                 user.Email = "sam@gmail.com";
 
                 string userPWD = "226622";

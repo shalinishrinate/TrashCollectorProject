@@ -44,7 +44,7 @@ namespace TrashCollectorFinal.Controllers
             Customer customer = new Customer();
             customer.SuspendedStart = DateTime.Now;
             customer.SuspendedEnd = DateTime.Now;
-            customer.PickupDay = DateTime.Now;
+            customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
             return View(customer);
         }
 
