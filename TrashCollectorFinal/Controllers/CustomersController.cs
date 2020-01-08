@@ -70,10 +70,13 @@ namespace TrashCollectorFinal.Controllers
         }
 
         // GET: Customers/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
             Customer customer = new Customer();
             customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            customer.SuspendedStart = DateTime.Now;
+            customer.SuspendedEnd = DateTime.Now;
+            customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
             return View();
         }
 
@@ -128,6 +131,36 @@ namespace TrashCollectorFinal.Controllers
             }
             catch
             {
+                return View();
+            }
+        }
+
+        public ActionResult PickupDate(int id)
+        {
+            Customer customer = new Customer();
+            customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PickupDate(int id, Customer customer)
+        {
+            try
+            {
+                var editedCustomer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+                editedCustomer.PickupConfirmation = customer.PickupConfirmation;
+                editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
+                editedCustomer.Balance = customer.Balance;
+                editedCustomer.SuspendedStart = customer.SuspendedStart;
+                editedCustomer.SuspendedEnd = customer.SuspendedEnd;
+                
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+
                 return View();
             }
         }
