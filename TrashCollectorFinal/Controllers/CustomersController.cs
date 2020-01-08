@@ -22,6 +22,7 @@ namespace TrashCollectorFinal.Controllers
         // GET: Customers
         public ActionResult Index()
         {
+            //customer logged in should only see themselves
             var customers = _context.Customers.ToList();
             return View(customers);
         }
