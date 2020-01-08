@@ -12,121 +12,106 @@ namespace TrashCollectorFinal.Controllers
 {
     public class EmployeesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context;
 
+        public EmployeesController()
+        {
+            _context = new ApplicationDbContext();
+        }
         // GET: Employees
         public ActionResult Index()
         {
-            var employees = db.Employees.Include(e => e.ApplicationUser);
-            return View(employees.ToList());
+
+            var employees = _context.Employees.ToList();
+            return View(employees);
         }
 
         // GET: Employees/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
+            Employee employee = new Employee();
+            employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
             return View(employee);
         }
 
         // GET: Employees/Create
         public ActionResult Create()
         {
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email");
-            return View();
-        }
-
-        // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Zipcode,ApplicationId")] Employee employee)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Employees.Add(employee);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email", employee.ApplicationId);
+            Employee employee = new Employee();
             return View(employee);
         }
 
-        // GET: Employees/Edit/5
-        public ActionResult Edit(int? id)
+        // POST: Employees/Create
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Employee employee)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                _context.Employees.Add(employee);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
+            catch 
             {
-                return HttpNotFound();
+                return View();
             }
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email", employee.ApplicationId);
+        }
+
+        // GET: Employees/Edit/5
+        public ActionResult Edit(int id)
+        {
+            Employee employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
             return View(employee);
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Zipcode,ApplicationId")] Employee employee)
+        public ActionResult Edit(int id, Employee employee)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(employee).State = EntityState.Modified;
-                db.SaveChanges();
+                var editedEmployee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
+                editedEmployee.FirstName = employee.FirstName;
+                editedEmployee.LastName = employee.LastName;
+                editedEmployee.Zipcode = employee.Zipcode;
                 return RedirectToAction("Index");
             }
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email", employee.ApplicationId);
-            return View(employee);
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: Employees/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
+            Employee employee = new Employee();
+            employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
             return View(employee);
         }
 
         // POST: Employees/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id, Employee employee)
         {
-            Employee employee = db.Employees.Find(id);
-            db.Employees.Remove(employee);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
+                _context.Employees.Remove(employee);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch 
+            {
+                return View();
+            }
+            
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
