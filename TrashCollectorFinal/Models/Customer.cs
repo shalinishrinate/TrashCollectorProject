@@ -12,16 +12,34 @@ namespace TrashCollectorFinal.Models
         [Key]
         public int Id { get; set; }
         public DateTime PickupDay { get; set; }
+
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
+
+        [Display(Name = "Extra Pickup Date")]
         public int ExtraPickupDate { get; set; }
+
+        [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
+
+        [Display(Name = "City")]
         public string City { get; set; }
+
         public string State { get; set; }
+
         public int Zipcode { get; set; }
         public double Balance { get; set; }
+
+        [Display(Name = "Suspended Start Date")]
         public DateTime SuspendedStart { get; set; }
+
+        [Display(Name = "Suspended End Date")]
         public DateTime SuspendedEnd { get; set; }
+
+        [Display(Name = "Pickup Confirmation")]
         public bool PickupConfirmation { get; set; }
 
         [ForeignKey("ApplicationUser")]
