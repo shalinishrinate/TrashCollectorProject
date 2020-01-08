@@ -39,7 +39,7 @@ namespace TrashCollectorFinal
                 user.UserName = "Sam";
                 user.Email = "sam@gmail.com";
 
-                string userPWD = "A@Z226622";
+                string userPWD = "226622";
 
                 var chkUser = UserManager.Create(user, userPWD);
 
@@ -49,15 +49,6 @@ namespace TrashCollectorFinal
                     var result1 = UserManager.AddToRole(user.Id, "Admin");
 
                 }
-            }
-
-            // creating Creating Manager role     
-            if (!roleManager.RoleExists("Manager"))
-            {
-                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Manager";
-                roleManager.Create(role);
-
             }
 
             // creating Creating Employee role     

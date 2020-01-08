@@ -12,121 +12,115 @@ namespace TrashCollectorFinal.Controllers
 {
     public class CustomersController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _context;
 
+        public CustomersController()
+        {
+            _context = new ApplicationDbContext();
+        }
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = db.Customers.Include(c => c.ApplicationUser);
-            return View(customers.ToList());
+            var customers = _context.Customers.ToList();
+            return View(customers);
         }
 
         // GET: Customers/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
+            Customer customer = new Customer();
+            customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
             return View(customer);
         }
 
         // GET: Customers/Create
         public ActionResult Create()
         {
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            Customer customer = new Customer();
+            return View(customer);
         }
 
         // POST: Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PickupDay,FirstName,LastName,ExtraPickupDate,StreetAddress,City,State,Zipcode,Balance,SuspendedStart,SuspendedEnd,PickupConfirmation,ApplicationId")] Customer customer)
+        public ActionResult Create(Customer customer)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email", customer.ApplicationId);
-            return View(customer);
+            catch 
+            {
+                return View();
+            }
+            
         }
 
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email", customer.ApplicationId);
-            return View(customer);
+            Customer customer = new Customer();
+            customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            return View();
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PickupDay,FirstName,LastName,ExtraPickupDate,StreetAddress,City,State,Zipcode,Balance,SuspendedStart,SuspendedEnd,PickupConfirmation,ApplicationId")] Customer customer)
+        public ActionResult Edit(int id, Customer customer)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
+                var editedCustomer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+                editedCustomer.FirstName = customer.FirstName;
+                editedCustomer.LastName = customer.LastName;
+                editedCustomer.PickupConfirmation = customer.PickupConfirmation;
+                editedCustomer.PickupDay = customer.PickupDay;
+                editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
+                editedCustomer.Balance = customer.Balance;
+                editedCustomer.SuspendedStart = customer.SuspendedStart;
+                editedCustomer.SuspendedEnd = customer.SuspendedEnd;
+                editedCustomer.City = customer.City;
+                editedCustomer.State = customer.State;
+                editedCustomer.StreetAddress = customer.StreetAddress;
+                editedCustomer.Zipcode = customer.Zipcode;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ApplicationId = new SelectList(db.Users, "Id", "Email", customer.ApplicationId);
-            return View(customer);
+            catch 
+            {
+
+                return View();
+            }
         }
 
         // GET: Customers/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
-            {
-                return HttpNotFound();
-            }
+            Customer customer = new Customer();
+            customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
             return View(customer);
         }
 
         // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id, Customer customer)
         {
-            Customer customer = db.Customers.Find(id);
-            db.Customers.Remove(customer);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+                _context.Customers.Remove(customer);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
