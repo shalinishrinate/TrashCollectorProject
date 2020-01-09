@@ -23,8 +23,11 @@ namespace TrashCollectorFinal.Controllers
         public ActionResult Index()
         {
             //customer logged in should only see themselves
-            var customers = _context.Customers.ToList();
-            return View(customers);
+            //var customers = _context.Customers.ToList();
+            var userId = User.Identity.GetUserId();
+            var customer = _context.Customers.Where(c => c.ApplicationId == userId).SingleOrDefault();
+            return View(customer);
+
         }
 
         // GET: Customers/Details/5
@@ -78,7 +81,7 @@ namespace TrashCollectorFinal.Controllers
             customer.SuspendedStart = DateTime.Now;
             customer.SuspendedEnd = DateTime.Now;
             customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
-            return View();
+            return View(customer);
         }
 
         [HttpPost]
