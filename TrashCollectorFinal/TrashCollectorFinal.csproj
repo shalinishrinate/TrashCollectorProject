@@ -271,6 +271,7 @@
     <Content Include="Views\usercontroller\Index.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Employees\EmployeePickupDay.cshtml" />
+    <Content Include="Views\Employees\PickupConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

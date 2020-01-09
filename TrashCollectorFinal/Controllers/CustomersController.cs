@@ -79,7 +79,7 @@ namespace TrashCollectorFinal.Controllers
             customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
             return View(customer);
         }
-        //no
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Customer customer)
@@ -100,10 +100,6 @@ namespace TrashCollectorFinal.Controllers
                 editedCustomer.SuspendedEnd = customer.SuspendedEnd;
                 editedCustomer.PickupConfirmation = customer.PickupConfirmation;
 
-                if (customer.PickupConfirmation == true)
-                {
-                    editedCustomer.Balance += (10 + customer.Balance);
-                }
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }

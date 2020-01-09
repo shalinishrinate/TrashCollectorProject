@@ -127,5 +127,37 @@ namespace TrashCollectorFinal.Controllers
 
             return View(nearbyCustomers);
         }
+        
+        // GET: 
+        public ActionResult PickupConfirmation(int id)
+        {
+            Customer customer = new Customer();
+            customer = _context.Customers.Where(e => e.Id == id).SingleOrDefault();
+
+            return View(customer);
+        }
+
+        // POST: Employees/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PickupConfirmation(int id, Customer customer)
+        {
+            try
+            {
+            Customer editedcustomer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+                editedcustomer.PickupConfirmation = customer.PickupConfirmation;
+
+            if (customer.PickupConfirmation == true)
+            {
+               editedcustomer.Balance += (10 + customer.Balance);
+            }
+              _context.SaveChanges();
+              return RedirectToAction("Index");
+            }
+            catch(Exception e)
+            {
+                return View();
+            }
+        }
     }
 }
