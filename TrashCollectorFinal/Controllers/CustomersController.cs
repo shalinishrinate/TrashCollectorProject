@@ -22,11 +22,8 @@ namespace TrashCollectorFinal.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            //customer logged in should only see themselves
-            //var customers = _context.Customers.ToList();
-            var userId = User.Identity.GetUserId();
-            var customer = _context.Customers.Where(c => c.ApplicationId == userId).SingleOrDefault();
-            return View(customer);
+            var customers = _context.Customers.ToList();
+            return View(customers);
 
         }
 
@@ -34,11 +31,10 @@ namespace TrashCollectorFinal.Controllers
         public ActionResult Details(int id)
         {
             // GETUSERID
-            //string currentUserId = User.Identity.GetUserId();
-            //var cust = _context.Customers.Where();
-
-            Customer customer = new Customer();
-            customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+           
+            var userId = User.Identity.GetUserId();
+            var customer = _context.Customers.Where(c => c.ApplicationId == userId).SingleOrDefault();
+            
             return View(customer);
         }
 

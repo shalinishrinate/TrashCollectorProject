@@ -82,7 +82,6 @@ namespace TrashCollectorFinal.Controllers
             {
                 case SignInStatus.Success:
 
-                    ///////
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -173,7 +172,6 @@ namespace TrashCollectorFinal.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     //Ends Here     
 
-                    ////////////////
                     if (model.UserRoles == "Employee")
                     {
                         return RedirectToAction("Create", "Employees");
