@@ -189,6 +189,10 @@
     <Compile Include="Migrations\202001081608137_ChangingDatTypeOfPickupDay.Designer.cs">
       <DependentUpon>202001081608137_ChangingDatTypeOfPickupDay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001091404553_newthing.cs" />
+    <Compile Include="Migrations\202001091404553_newthing.Designer.cs">
+      <DependentUpon>202001091404553_newthing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -266,6 +270,7 @@
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\usercontroller\Index.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Employees\EmployeePickupDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -292,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001081608137_ChangingDatTypeOfPickupDay.resx">
       <DependentUpon>202001081608137_ChangingDatTypeOfPickupDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001091404553_newthing.resx">
+      <DependentUpon>202001091404553_newthing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

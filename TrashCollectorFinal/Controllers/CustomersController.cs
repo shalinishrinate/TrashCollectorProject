@@ -22,7 +22,7 @@ namespace TrashCollectorFinal.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = _context.Customers.ToList();
+            var customers = _context.Customers.Include(c => c.ApplicationUser).ToList();
             return View(customers);
 
         }
@@ -79,7 +79,7 @@ namespace TrashCollectorFinal.Controllers
             customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
             return View(customer);
         }
-
+        //no
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Customer customer)
@@ -89,16 +89,21 @@ namespace TrashCollectorFinal.Controllers
                 var editedCustomer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
                 editedCustomer.FirstName = customer.FirstName;
                 editedCustomer.LastName = customer.LastName;
-                editedCustomer.PickupConfirmation = customer.PickupConfirmation;
-                editedCustomer.PickupDay = customer.PickupDay;
-                editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
-                editedCustomer.Balance = customer.Balance;
-                editedCustomer.SuspendedStart = customer.SuspendedStart;
-                editedCustomer.SuspendedEnd = customer.SuspendedEnd;
                 editedCustomer.City = customer.City;
                 editedCustomer.State = customer.State;
                 editedCustomer.StreetAddress = customer.StreetAddress;
                 editedCustomer.Zipcode = customer.Zipcode;
+                editedCustomer.PickupDay = customer.PickupDay;
+                editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
+                //editedCustomer.Balance = customer.Balance;
+                editedCustomer.SuspendedStart = customer.SuspendedStart;
+                editedCustomer.SuspendedEnd = customer.SuspendedEnd;
+                editedCustomer.PickupConfirmation = customer.PickupConfirmation;
+
+                if (customer.PickupConfirmation == true)
+                {
+                    editedCustomer.Balance += (10 + customer.Balance);
+                }
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -135,35 +140,35 @@ namespace TrashCollectorFinal.Controllers
             }
         }
 
-        public ActionResult PickupDate(int id)
-        {
-            Customer customer = new Customer();
-            customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
-            return View();
-        }
+        //public ActionResult PickupDate(int id)
+        //{
+        //    Customer customer = new Customer();
+        //    customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+        //    return View();
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult PickupDate(int id, Customer customer)
-        {
-            try
-            {
-                var editedCustomer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
-                editedCustomer.PickupConfirmation = customer.PickupConfirmation;
-                editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
-                editedCustomer.Balance = customer.Balance;
-                editedCustomer.SuspendedStart = customer.SuspendedStart;
-                editedCustomer.SuspendedEnd = customer.SuspendedEnd;
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult PickupDate(int id, Customer customer)
+        //{
+        //    try
+        //    {
+        //        var editedCustomer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+        //        editedCustomer.PickupConfirmation = customer.PickupConfirmation;
+        //        editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
+        //        editedCustomer.Balance = customer.Balance;
+        //        editedCustomer.SuspendedStart = customer.SuspendedStart;
+        //        editedCustomer.SuspendedEnd = customer.SuspendedEnd;
                 
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch
-            {
+        //        _context.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
 
-                return View();
-            }
-        }
+        //        return View();
+        //    }
+        //}
 
     }
 }

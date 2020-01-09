@@ -23,7 +23,7 @@ namespace TrashCollectorFinal.Controllers
         public ActionResult Index()
         {
 
-            var employees = _context.Employees.ToList();
+            var employees = _context.Employees.Include(e => e.ApplicationUser).ToList();
             return View(employees);
         }
 
@@ -56,7 +56,7 @@ namespace TrashCollectorFinal.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch 
+            catch
             {
                 return View();
             }
@@ -90,7 +90,7 @@ namespace TrashCollectorFinal.Controllers
         }
 
         // GET: Employees/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
             Employee employee = new Employee();
             employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
@@ -115,6 +115,17 @@ namespace TrashCollectorFinal.Controllers
             }
             
         }
+        //get
+        public ActionResult EmployeePickupDay()
+        {
+            string userId = User.Identity.GetUserId();
 
+          var currentDay = DateTime.Today.DayOfWeek.ToString();
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View(nearbyCustomers);
+        }
     }
 }
