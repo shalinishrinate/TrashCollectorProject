@@ -30,8 +30,7 @@ namespace TrashCollectorFinal.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int id)
         {
-            // GETUSERID
-           
+                     
             var userId = User.Identity.GetUserId();
             var customer = _context.Customers.Where(c => c.ApplicationId == userId).SingleOrDefault();
             
@@ -94,11 +93,11 @@ namespace TrashCollectorFinal.Controllers
                 editedCustomer.StreetAddress = customer.StreetAddress;
                 editedCustomer.Zipcode = customer.Zipcode;
                 editedCustomer.PickupDay = customer.PickupDay;
-                editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
+                //editedCustomer.ExtraPickupDate = customer.ExtraPickupDate;
                 //editedCustomer.Balance = customer.Balance;
-                editedCustomer.SuspendedStart = customer.SuspendedStart;
-                editedCustomer.SuspendedEnd = customer.SuspendedEnd;
-                editedCustomer.PickupConfirmation = customer.PickupConfirmation;
+                //editedCustomer.SuspendedStart = customer.SuspendedStart;
+                //editedCustomer.SuspendedEnd = customer.SuspendedEnd;
+                //editedCustomer.PickupConfirmation = customer.PickupConfirmation;
 
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -155,7 +154,7 @@ namespace TrashCollectorFinal.Controllers
         //        editedCustomer.Balance = customer.Balance;
         //        editedCustomer.SuspendedStart = customer.SuspendedStart;
         //        editedCustomer.SuspendedEnd = customer.SuspendedEnd;
-                
+
         //        _context.SaveChanges();
         //        return RedirectToAction("Index");
         //    }

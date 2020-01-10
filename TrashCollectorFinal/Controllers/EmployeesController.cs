@@ -81,6 +81,7 @@ namespace TrashCollectorFinal.Controllers
                 editedEmployee.FirstName = employee.FirstName;
                 editedEmployee.LastName = employee.LastName;
                 editedEmployee.Zipcode = employee.Zipcode;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
@@ -159,5 +160,34 @@ namespace TrashCollectorFinal.Controllers
                 return View();
             }
         }
+
+        public ActionResult Monday()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var currentDay = "Monday";
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View("Employees");
+        }
+
+        //GET:
+        //public ActionResult PickCustomerDaywise()
+        //{
+        //    WeekDay weekday = new SelectList(new List <string>()) { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"}
+
+        //    //what I want to be able to do is show customers who have chosen a particuar weekday based on the week day chosen on the dropdown.
+        //}
+
+        //// POST:
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+
+        //public ActionResult PickCustomerDayWise()
+        //{
+
+        //}
     }
 }
