@@ -76,6 +76,7 @@
         @Html.LabelFor(model => model.PickupDay, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.PickupDay, Model.DaysOfWeek, "Select Day")
+            @Html.ValidationMessageFor(model=>model.PickupDay, "", new { @class = "text-danger"})
         </div>
     </div>
 

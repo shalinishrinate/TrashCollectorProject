@@ -41,8 +41,8 @@ namespace TrashCollectorFinal.Controllers
         public ActionResult Create()
         {
             Customer customer = new Customer();
-            customer.SuspendedStart = DateTime.Now;
-            customer.SuspendedEnd = DateTime.Now;
+            //customer.SuspendedStart = DateTime.Now;
+            //customer.SuspendedEnd = DateTime.Now;
             customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
             return View(customer);
         }
@@ -59,7 +59,7 @@ namespace TrashCollectorFinal.Controllers
                 customer.ApplicationId = currentUserId;
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", customer);
             }
             catch (Exception e)
             {
@@ -73,8 +73,8 @@ namespace TrashCollectorFinal.Controllers
         {
             Customer customer = new Customer();
             customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
-            customer.SuspendedStart = DateTime.Now;
-            customer.SuspendedEnd = DateTime.Now;
+            //customer.SuspendedStart = DateTime.Now;
+            //customer.SuspendedEnd = DateTime.Now;
             customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
             return View(customer);
         }
@@ -85,7 +85,7 @@ namespace TrashCollectorFinal.Controllers
         {
             try
             {
-                var editedCustomer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+                var editedCustomer = _context.Customers.Include(c =>c.ApplicationUser).Where(c => c.Id == id).SingleOrDefault();
                 editedCustomer.FirstName = customer.FirstName;
                 editedCustomer.LastName = customer.LastName;
                 editedCustomer.City = customer.City;
@@ -98,9 +98,8 @@ namespace TrashCollectorFinal.Controllers
                 //editedCustomer.SuspendedStart = customer.SuspendedStart;
                 //editedCustomer.SuspendedEnd = customer.SuspendedEnd;
                 //editedCustomer.PickupConfirmation = customer.PickupConfirmation;
-
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
             catch 
             {
