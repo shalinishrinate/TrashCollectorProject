@@ -264,7 +264,6 @@
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Customers\Create.cshtml" />
-    <Content Include="Views\Customers\Delete.cshtml" />
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
@@ -272,6 +271,14 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Employees\EmployeePickupDay.cshtml" />
     <Content Include="Views\Employees\PickupConfirmation.cshtml" />
+    <Content Include="Views\Customers\CustomerIndex.cshtml" />
+    <Content Include="Views\Employees\Monday.cshtml" />
+    <Content Include="Views\Employees\Tuesday.cshtml" />
+    <Content Include="Views\Employees\Wednesday.cshtml" />
+    <Content Include="Views\Employees\Thursday.cshtml" />
+    <Content Include="Views\Employees\Friday.cshtml" />
+    <Content Include="Views\Employees\Saturday.cshtml" />
+    <Content Include="Views\Employees\Sunday.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

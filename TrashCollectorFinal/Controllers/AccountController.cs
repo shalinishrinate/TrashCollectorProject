@@ -81,7 +81,25 @@ namespace TrashCollectorFinal.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var user = await UserManager.FindAsync(model.UserName, model.Password);
+                    var roles = await UserManager.GetRolesAsync(user.Id);
+                    if (roles.Contains("Employee"))
+                    {
+                        return RedirectToAction("Index", "Employees");
+                    }
+                    else if (roles.Contains("Customer"))
+                    {
+                        return RedirectToAction("Details", "Customers");
+                    }
+                    else if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -173,11 +191,11 @@ namespace TrashCollectorFinal.Controllers
 
                     if (model.UserRoles == "Employee")
                     {
-                        return RedirectToAction("Create", "Employees");
+                        return RedirectToAction("Create", "Employee");
                     }
                     else if (model.UserRoles == "Customer")
                     {
-                        return RedirectToAction("Create", "Customers");
+                        return RedirectToAction("Create", "Customer");
                     }
                     return RedirectToAction("Index", "Users");
                 }

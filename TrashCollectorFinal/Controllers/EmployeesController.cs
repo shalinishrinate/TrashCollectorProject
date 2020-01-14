@@ -22,17 +22,21 @@ namespace TrashCollectorFinal.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-
-            var employees = _context.Employees.Include(e => e.ApplicationUser).ToList();
-            return View(employees);
+            string currentDay = DateTime.Today.DayOfWeek.ToString();
+            string userId = User.Identity.GetUserId();
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).FirstOrDefault();
+            var nearByCustomers = _context.Customers.Where(c => (c.Zipcode == employee.Zipcode) && (currentDay == c.PickupDay)).ToList();
+            return RedirectToAction("Index", "Customers", nearByCustomers);
+            
         }
 
         // GET: Employees/Details/5
         public ActionResult Details(int id)
         {
-            Employee employee = new Employee();
-            employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
-            return View(employee);
+            string userId = User.Identity.GetUserId();
+            var employee = _context.Employees.Where(c => c.ApplicationId == userId).SingleOrDefault();
+            var nearByCustomers = _context.Customers.Where(c => (c.Zipcode == employee.Zipcode)).ToList();
+            return View(nearByCustomers);
         }
 
         // GET: Employees/Create
@@ -50,13 +54,13 @@ namespace TrashCollectorFinal.Controllers
         {
             try
             {
-                string currentUserId = User.Identity.GetUserId();
-                employee.ApplicationId = currentUserId;
+                string UserId = User.Identity.GetUserId();
+                employee.ApplicationId = UserId;
                 _context.Employees.Add(employee);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }
@@ -170,7 +174,79 @@ namespace TrashCollectorFinal.Controllers
             var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
             var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
 
-            return View("Employees");
+            return View(nearbyCustomers);
+        }
+
+        public ActionResult Tuesday()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var currentDay = "Tuesday";
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View(nearbyCustomers);
+        }
+
+        public ActionResult Wednesday()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var currentDay = "Wednesday";
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View(nearbyCustomers);
+        }
+
+        public ActionResult Thursday()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var currentDay = "Thursday";
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View(nearbyCustomers);
+        }
+
+        public ActionResult Friday()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var currentDay = "Friday";
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View(nearbyCustomers);
+        }
+
+        public ActionResult Saturday()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var currentDay = "Saturday";
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View(nearbyCustomers);
+        }
+
+        public ActionResult Sunday()
+        {
+            string userId = User.Identity.GetUserId();
+
+            var currentDay = "Sunday";
+
+            var employee = _context.Employees.Where(e => e.ApplicationId == userId).SingleOrDefault();
+            var nearbyCustomers = _context.Customers.Where(c => c.Zipcode == employee.Zipcode && c.PickupDay == currentDay).ToList();
+
+            return View(nearbyCustomers);
         }
 
         //GET:

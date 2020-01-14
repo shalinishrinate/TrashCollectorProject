@@ -33,14 +33,6 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ExtraPickupDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ExtraPickupDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ExtraPickupDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
         @Html.LabelFor(model => model.StreetAddress, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.StreetAddress, new { htmlAttributes = new { @class = "form-control" } })
@@ -73,10 +65,19 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.ExtraPickupDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ExtraPickupDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ExtraPickupDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
         @Html.LabelFor(model => model.PickupDay, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.PickupDay, Model.DaysOfWeek, "Select Day")
-            @Html.ValidationMessageFor(model=>model.PickupDay, "", new { @class = "text-danger"})
+            @Html.ValidationMessageFor(model => model.PickupDay, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -104,7 +105,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    @*<div class="form-group">
         @Html.LabelFor(model => model.PickupConfirmation, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="checkbox">
@@ -112,7 +113,7 @@
                 @Html.ValidationMessageFor(model => model.PickupConfirmation, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
+    </div>*@
 
 
     @*<div class="form-group">

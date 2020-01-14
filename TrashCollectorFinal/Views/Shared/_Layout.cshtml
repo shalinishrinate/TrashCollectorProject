@@ -23,7 +23,7 @@
                     <a class=" navbar-brand">@Html.ActionLink("CONTACT", "Contact", "Home")</a>
                     @if (User.IsInRole("Customer") == true)
                     {
-                        <a class="navbar-brand">@Html.ActionLink("CUSTOMERS", "Index", "Customers")</a>
+                        <a class="navbar-brand">@Html.ActionLink("Home", "Details", "Customers")</a>
                     }
                     else if (User.IsInRole("Employee") == true)
                     {
