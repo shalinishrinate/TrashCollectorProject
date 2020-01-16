@@ -50,7 +50,7 @@ namespace TrashCollectorFinal.Models
         [ForeignKey("ApplicationUser")]
         public string ApplicationId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
-
+        [NotMapped]
         public IEnumerable<Customer> Customers { get; set; }
 
         [NotMapped]

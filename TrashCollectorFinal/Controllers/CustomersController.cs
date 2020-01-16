@@ -49,9 +49,9 @@ namespace TrashCollectorFinal.Controllers
 
             var userId = User.Identity.GetUserId();
             Customer customer;
-            if (User.IsInRole("Customer") == true && id == null)
+            if (User.IsInRole("Employee") == false && id == null)
             {
-                customer = _context.Customers.Where(c => c.ApplicationId == userId).SingleOrDefault();
+                customer = _context.Customers.Where(c => c.ApplicationId == userId).Select(c=>c).SingleOrDefault();
             }
             else
             {
@@ -64,8 +64,8 @@ namespace TrashCollectorFinal.Controllers
         public ActionResult Create()
         {
             Customer customer = new Customer();
-            //customer.SuspendedStart = DateTime.Now;
-            //customer.SuspendedEnd = DateTime.Now;
+            customer.SuspendedStart = DateTime.Now;
+            customer.SuspendedEnd = DateTime.Now;
             customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
             return View(customer);
         }
@@ -82,6 +82,7 @@ namespace TrashCollectorFinal.Controllers
                 customer.ApplicationId = currentUserId;
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
+                customer.DaysOfWeek = new SelectList(new List<string>() { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" });
                 return RedirectToAction("Details", "Customers");
             }
             catch (Exception e)
